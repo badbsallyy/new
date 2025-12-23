@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222 32% 5%;
+  --foreground: 0 0% 98%;
+  --card: 225 28% 10%;
+  --card-foreground: 0 0% 98%;
+  --primary: 0 82% 60%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 225 25% 16%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 228 16% 18%;
+  --muted-foreground: 214 10% 70%;
+  --accent: 12 90% 60%;
+  --accent-foreground: 0 0% 98%;
+  --border: 225 16% 22%;
+  --ring: 0 82% 60%;
+  --radius: 999px;
+}
+
+body {
+  @apply bg-background text-foreground;
+  font-feature-settings: "ss01" 1, "cv02" 1;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #ff4a4a 0%, #ffb86b 50%, #fff1a8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-glow {
+  background: radial-gradient(circle at top, rgba(255, 74, 74, 0.2), transparent 60%);
+}
