@@ -1,245 +1,292 @@
-import Image from "next/image";
-import Link from "next/link";
+import {
+  ChevronDown,
+  Command,
+  Folder,
+  MessageSquare,
+  MoreHorizontal,
+  Paperclip,
+  Plus,
+  Search,
+  Settings,
+  Sparkles,
+  User,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
-const navLinks = [
-  { label: "Home", href: "https://coroneo.co/" },
-  { label: "Über uns", href: "https://coroneo.co/ueber-uns/" },
-  { label: "Leistungen", href: "https://coroneo.co/leistungen/" },
-  { label: "Kontakt", href: "https://coroneo.co/kontakt/" },
-  { label: "Termin buchen", href: "https://coroneo.co/termin-buchen/" },
-];
-
-const services = [
+const conversations = [
   {
-    title: "Basis Arbeit",
-    description:
-      "Schneiden, Waschen, Föhnen – bei uns wird selbst Alltägliches zu etwas Besonderem.",
-    action: "Infos",
-    href: "https://coroneo.co/leistungen/basis-arbeit/",
+    title: "Onboarding flow für Team",
+    time: "Heute",
+    tag: "Produkt",
   },
   {
-    title: "Farbe rein bringen",
-    description: "Wie bunt darf‘s denn sein? Wir sind Spezialisten für Farbe in allen Applikationsformen.",
-    action: "Infos",
-    href: "https://coroneo.co/leistungen/farbe-rein-bringen/",
+    title: "Prompt-Optimierung für Agent",
+    time: "Gestern",
+    tag: "Research",
   },
   {
-    title: "Mehr Haar wagen",
-    description: "Wir legen ein Schippchen drauf – Mit Extensions, Haarverdichtung und Haarverlängerung.",
-    action: "Mehr",
-    href: "https://coroneo.co/extensions/",
+    title: "UI Redesign Ideen",
+    time: "24. Sep",
+    tag: "Design",
   },
   {
-    title: "Hochzeit und Co.",
-    description:
-      "Beim Feiern muss alles perfekt sein. Wir sorgen dafür, dass das für Ihr Styling auf jeden Fall zutrifft.",
-    action: "Infos",
-    href: "https://coroneo.co/leistungen/festfrisuren/",
+    title: "Release Notes v1.2",
+    time: "18. Sep",
+    tag: "Docs",
   },
 ];
 
-const zweithaarDetails = [
-  "Endlich wieder volles Haar?",
-  "Kein Problem mit unserer Oberkopf-Haarverdichtung.",
-  "Lange Haare in einer Stunde?",
-  "Kein Problem. Wir beraten Sie gerne!",
-  "Endlich wieder volles Haar? Kein Problem mit unserer Oberkopf-Haarverdichtung (Haarteile)",
-  "Tape, Bonding, Clip in - Extension",
-  "Umfangreiche Farbauswahl",
-  "Asiatisches bis hin zu Eoropidem unbehandelten Haar",
+const folders = ["Team", "Experimente", "Kunden"];
+
+const models = [
+  "gpt-4o",
+  "gpt-4.1",
+  "claude-3.5",
+  "llama-3.1",
+];
+
+const messages = [
+  {
+    role: "assistant",
+    name: "Assistant",
+    content:
+      "Willkommen zurück! Ich habe das neue Release analysiert. Soll ich eine Zusammenfassung für das Team erstellen?",
+    time: "09:41",
+  },
+  {
+    role: "user",
+    name: "You",
+    content:
+      "Ja bitte. Fokus auf neue Settings, Model-Switching und Dateiupload.",
+    time: "09:42",
+  },
+  {
+    role: "assistant",
+    name: "Assistant",
+    content:
+      "Alles klar. Ich arbeite eine kompakte Übersicht aus, inklusive Screenshots und Verlinkungen zu den neuen Einstellungen.",
+    time: "09:43",
+  },
+];
+
+const quickActions = [
+  "Zusammenfassung generieren",
+  "Neue Nachricht erstellen",
+  "Modellvergleich starten",
+  "System Prompt prüfen",
 ];
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <div className="gradient-sheen">
-        <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur">
-          <div className="container flex items-center justify-between py-4">
-            <div className="flex items-center gap-4">
-              <Image
-                src="https://coroneo.co/wp-content/uploads/2021/10/Logo_Coroneo_128.png"
-                alt="Coroneo Friseure"
-                width={128}
-                height={38}
-                className="h-8 w-auto"
-              />
-              <div className="hidden items-center gap-3 text-sm text-muted-foreground md:flex">
-                <Link className="hover:text-foreground" href="tel:02811640430">
-                  0281 1640430
-                </Link>
-                <span className="text-muted-foreground/40">|</span>
-                <Link className="hover:text-foreground" href="mailto:info@coroneo.co">
-                  info@coroneo.co
-                </Link>
+      <div className="flex min-h-screen flex-col lg:flex-row">
+        <aside className="flex w-full flex-col border-b border-border/60 bg-card/40 px-4 pb-6 pt-6 lg:w-72 lg:border-b-0 lg:border-r">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-base font-semibold">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                <Sparkles className="h-4 w-4" />
               </div>
+              Open WebUI
             </div>
-            <nav className="hidden items-center gap-6 text-sm text-muted-foreground lg:flex">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="transition hover:text-foreground"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-            <Button asChild className="hidden lg:inline-flex">
-              <Link href="https://coroneo.co/termin-buchen">Jetzt  buchen</Link>
+            <Button size="icon" variant="ghost">
+              <Command className="h-4 w-4" />
             </Button>
           </div>
-        </header>
 
-        <section className="relative overflow-hidden border-b border-border/40">
-          <div className="container grid gap-10 py-20 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-            <div className="space-y-8">
-              <Badge className="w-fit">Coroneo Wesel</Badge>
-              <div className="space-y-4">
-                <h1 className="text-4xl font-semibold leading-tight text-white md:text-5xl">
-                  Individuelles Styling mit Köpfchen
-                </h1>
-                <p className="max-w-xl text-base text-muted-foreground md:text-lg">
-                  Coroneo sorgt für
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-4">
-                <Button asChild size="lg">
-                  <Link href="https://coroneo.co/leistungen/">Mehr Infos</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link href="https://www.instagram.com/coroneo_friseure_wesel/">
-                    Instagram
-                  </Link>
-                </Button>
-              </div>
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="glass-panel rounded-3xl p-6">
-                  <p className="text-sm text-muted-foreground">Terminvereinbarung</p>
-                  <p className="mt-2 text-lg font-semibold">0281 1640430</p>
-                </div>
-                <div className="glass-panel rounded-3xl p-6">
-                  <p className="text-sm text-muted-foreground">Details</p>
-                  <p className="mt-2 text-lg font-semibold">info@coroneo.co</p>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="absolute -left-6 top-10 hidden h-40 w-40 rounded-full bg-primary/30 blur-3xl lg:block" />
-              <div className="rounded-[32px] border border-border/50 bg-card/80 p-4 shadow-2xl">
-                <Image
-                  src="https://coroneo.co/wp-content/uploads/2023/05/friseur-coroneo-wesel.1.1-1024x771.png"
-                  alt="friseur-coroneo-wesel.1.1"
-                  width={1024}
-                  height={771}
-                  className="rounded-[24px] object-cover"
-                />
-              </div>
+          <div className="mt-6 flex items-center gap-2">
+            <Button className="flex-1" size="sm">
+              <Plus className="mr-2 h-4 w-4" />
+              New Chat
+            </Button>
+            <Button size="icon" variant="secondary">
+              <Settings className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="mt-6">
+            <div className="flex items-center gap-2 rounded-xl border border-border/60 bg-background/70 px-3 py-2">
+              <Search className="h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search conversations"
+                className="h-8 border-0 bg-transparent px-0 text-sm focus-visible:ring-0"
+              />
             </div>
           </div>
-        </section>
-      </div>
 
-      <section className="container space-y-10 py-20">
-        <div className="flex items-center justify-between">
-          <div className="space-y-3">
-            <Badge variant="outline">Leistungen</Badge>
-            <h2 className="text-3xl font-semibold text-white">Coroneo sorgt für</h2>
+          <div className="mt-6 space-y-3">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              Folders
+            </p>
+            <div className="space-y-2">
+              {folders.map((folder) => (
+                <button
+                  key={folder}
+                  type="button"
+                  className="flex w-full items-center gap-2 rounded-xl border border-transparent px-3 py-2 text-sm text-muted-foreground transition hover:border-border/60 hover:bg-background/60 hover:text-foreground"
+                >
+                  <Folder className="h-4 w-4" />
+                  {folder}
+                </button>
+              ))}
+            </div>
           </div>
-          <Button asChild variant="secondary" className="hidden md:inline-flex">
-            <Link href="https://coroneo.co/leistungen/">Mehr Infos</Link>
-          </Button>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2">
-          {services.map((service) => (
-            <Card key={service.title} className="flex h-full flex-col">
-              <CardHeader>
-                <CardTitle>{service.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-1 flex-col gap-6">
-                <p className="text-sm text-muted-foreground">{service.description}</p>
-                <Button asChild variant="ghost" className="w-fit px-0">
-                  <Link href={service.href}>{service.action}</Link>
+
+          <div className="mt-6 space-y-3">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              Conversations
+            </p>
+            <div className="space-y-3">
+              {conversations.map((conversation) => (
+                <Card key={conversation.title} className="border-border/50 bg-background/60">
+                  <CardContent className="flex items-start gap-3 p-3">
+                    <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+                      <MessageSquare className="h-4 w-4" />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium text-foreground">
+                          {conversation.title}
+                        </p>
+                        <Button size="icon" variant="ghost" className="h-7 w-7">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>{conversation.time}</span>
+                        <Badge className="text-[10px]">
+                          {conversation.tag}
+                        </Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-auto pt-6">
+            <Card className="border-border/50 bg-background/70">
+              <CardContent className="flex items-center gap-3 p-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+                  <User className="h-5 w-5" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium">Alex Rivera</p>
+                  <p className="text-xs text-muted-foreground">alex@openwebui.dev</p>
+                </div>
+                <Button size="icon" variant="ghost">
+                  <ChevronDown className="h-4 w-4" />
                 </Button>
               </CardContent>
             </Card>
-          ))}
-        </div>
-      </section>
+          </div>
+        </aside>
 
-      <section className="container grid gap-10 py-20 lg:grid-cols-[1fr_1fr]">
-        <div className="space-y-6">
-          <Badge>Beratung</Badge>
-          <h2 className="text-3xl font-semibold text-white">
-            Vereinbaren Sie gerne einen unverbindlichen Beratungstermin!
-          </h2>
-          <p className="text-muted-foreground">
-            Wir nehmen uns Zeit für Sie! In unserem modernen Salon mitten in der Weseler Innenstadt steht unser Team für eine ausführliche Beratung zur Verfügung. Wir freuen uns auf Sie!
-          </p>
-          <p className="text-muted-foreground">
-            Sie haben Fragen zu Haarteilen oder Haarverdichtungen und wünschen sich eine diskrete Beratung in einem separaten Raum. Kein Problem! Wir sind auf diese Eventualitäten vorbereitet.
-          </p>
-        </div>
-        <div className="grid gap-6">
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle>Beratung zur Haarteilen und Haarverdichtung</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-sm text-muted-foreground">
-                Wir sind ausgebildete Spezialisten im Bereich Zweithaar und Perücken und beraten Sie gerne unverbindlich.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Wir unterstützen Sie bei der Abrechnung mit der Krankenkasse.
-              </p>
-            </CardContent>
-          </Card>
-          <div className="grid gap-4 rounded-3xl border border-border/50 bg-secondary/40 p-6">
-            {zweithaarDetails.map((detail) => (
-              <div key={detail} className="text-sm text-muted-foreground">
-                {detail}
+        <section className="flex flex-1 flex-col">
+          <header className="border-b border-border/60 bg-background/70 px-6 py-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="space-y-1">
+                <p className="text-sm text-muted-foreground">Workspace / Team Core</p>
+                <h1 className="text-lg font-semibold">Chat</h1>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="flex flex-wrap items-center gap-3">
+                <Button variant="secondary" className="gap-2">
+                  {models[0]}
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+                <Button variant="outline">Share</Button>
+                <Button variant="outline">Export</Button>
+              </div>
+            </div>
+          </header>
 
-      <section className="container grid gap-10 py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <div className="space-y-6">
-          <Badge variant="outline">MARKEN-QUALITÄT</Badge>
-          <h2 className="text-3xl font-semibold text-white">Unsere Styling-Produkte</h2>
-          <div className="flex flex-wrap gap-4">
-            <Button asChild size="lg">
-              <Link href="https://coroneo.co/termin-buchen/">Terminvereinbarung</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="https://coroneo.co/kontakt/">Details</Link>
-            </Button>
-          </div>
-        </div>
-        <div className="rounded-[32px] border border-border/50 bg-card/80 p-4 shadow-2xl">
-          <Image
-            src="https://coroneo.co/wp-content/uploads/2023/05/friseur-coroneo-wesel.2.3-771x1024.png"
-            alt="friseur-coroneo-wesel.2.3"
-            width={771}
-            height={1024}
-            className="rounded-[24px] object-cover"
-          />
-        </div>
-      </section>
+          <div className="flex flex-1 flex-col gap-6 overflow-hidden px-6 py-6">
+            <div className="flex flex-wrap gap-3">
+              {quickActions.map((action) => (
+                <Button key={action} variant="secondary" className="rounded-full text-xs">
+                  {action}
+                </Button>
+              ))}
+            </div>
 
-      <footer className="border-t border-border/40 py-10">
-        <div className="container flex flex-col gap-4 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <span>Coroneo Wesel</span>
-          <div className="flex flex-wrap gap-4">
-            <Link href="https://coroneo.co/datenschutzerklaerung/">Datenschutz</Link>
-            <Link href="https://coroneo.co/impressum/">Impressum</Link>
+            <div className="flex-1 space-y-6 overflow-y-auto pb-4">
+              {messages.map((message) => (
+                <div
+                  key={`${message.role}-${message.time}`}
+                  className={`flex gap-4 ${
+                    message.role === "user" ? "flex-row-reverse" : "flex-row"
+                  }`}
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+                    {message.role === "user" ? <User className="h-5 w-5" /> : <Sparkles className="h-5 w-5" />}
+                  </div>
+                  <Card className="w-full border-border/50 bg-card/60">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium">{message.name}</p>
+                        <Badge variant="outline" className="text-[10px]">
+                          {message.role === "user" ? "You" : "Assistant"}
+                        </Badge>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {message.time}
+                      </span>
+                    </CardHeader>
+                    <CardContent className="space-y-4 text-sm text-muted-foreground">
+                      <p className="text-foreground/90">{message.content}</p>
+                      <div className="flex flex-wrap gap-2">
+                        <Button size="sm" variant="ghost">
+                          Copy
+                        </Button>
+                        <Button size="sm" variant="ghost">
+                          Regenerate
+                        </Button>
+                        <Button size="sm" variant="ghost">
+                          Edit
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
+            </div>
+
+            <Card className="border-border/60 bg-background/80">
+              <CardContent className="space-y-4 p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Paperclip className="h-4 w-4" />
+                    Drag & drop files or click to upload
+                  </div>
+                  <Badge className="text-[10px]">
+                    5 MB max
+                  </Badge>
+                </div>
+                <Textarea
+                  placeholder="Send a message..."
+                  className="min-h-[120px] bg-background/70"
+                />
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    <span>Shift + Enter for new line</span>
+                    <span className="hidden sm:inline">·</span>
+                    <span className="hidden sm:inline">/ for commands</span>
+                  </div>
+                  <Button className="gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Send
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </div>
-      </footer>
+        </section>
+      </div>
     </main>
   );
 }
